@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SigMaker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
+</head>
+<body>
+  <div class="layout">
+    <form id="form">
+
+      <details open>
+        <summary><strong>Profile</strong></summary>
+        <div>
+          <input id="profile_name" type="text" placeholder="Profile name (used for saving)" />
+        </div>
+      </details>
+
+      <details open>
+        <summary><strong>Advisor Info</strong></summary>
+        <div class="input-section">
+          <input name="advisor_name" placeholder="Name" />
+          <input name="title" placeholder="Title" />
+          <input name="tagline" placeholder="Tagline" />
+          <input name="phone" placeholder="Phone" />
+          <input name="email" placeholder="Email" />
+          <input name="address" placeholder="Address" />
+          <input name="map_link" placeholder="Map Link" />
+          <input name="website" placeholder="Website (full URL)" />
+          <input name="website_display" placeholder="Website Display Text" />
+        </div>
+      </details>
+
+      <details>
+        <summary><strong>Images</strong></summary>
+        <div class="input-section">
+          <input name="headshot_url" placeholder="Headshot Image URL" />
+          <input name="signature_image_url" placeholder="Signature Image URL" />
+          <input name="advisor_logo_url" placeholder="Advisor Logo URL" />
+          <input name="broker_logo_url" placeholder="Broker Logo URL" />
+        </div>
+      </details>
+
+      <details>
+        <summary><strong>Social Links</strong></summary>
+        <div class="input-section">
+          <input name="facebook_link" placeholder="Facebook Username" />
+          <input name="instagram_link" placeholder="Instagram Username" />
+          <input name="linkedin_link" placeholder="LinkedIn Handle" />
+          <input name="youtube_link" placeholder="YouTube Handle" />
+          <input name="twitter_link" placeholder="Twitter Handle" />
+          <input name="zillow_link" placeholder="Zillow Username" />
+          <input name="realtor_link" placeholder="Realtor.com Username" />
+        </div>
+      </details>
+
+      <details>
+        <summary><strong>Brand Colors</strong></summary>
+        <div class="input-section">
+          <label>Brand Color</label>
+          <input id="brand_color_hex" name="brand_color" type="text" value="#000000" />
+          <label>Accent Color</label>
+          <input id="accent_color_hex" name="accent_color" type="text" value="#bf9447" />
+        </div>
+      </details>
+
+      <details open>
+        <summary><strong>GitHub Token</strong></summary>
+        <div class="input-section">
+          <input id="github_token" type="password" placeholder="Paste GitHub token here" />
+        </div>
+      </details>
+
+      <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:10px;">
+        <button type="button" onclick="copyHTML()">Copy HTML</button>
+        <button type="button" onclick="downloadSignature()">Download HTML</button>
+        <button type="reset" onclick="resetForm()">Clear Form</button>
+      </div>
+
+    </form>
+
+    <div class="output-box">
+      <h2>Signature Preview</h2>
+      <div id="signature-output"></div>
+    </div>
+  </div>
+
+  <!-- Handlebars Template -->
+  <script id="signature-template" type="text/x-handlebars-template">
+    {{{signature_html}}}
+  </script>
+
+  <!-- App Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
