@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Email Signature</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Helvetica, Arial, sans-serif;
+      background-color: #ffffff;
+      color: #000000;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 450px;
+      background-color: #ffffff;
+      border: 1px solid #ccc;
+      padding: 16px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .name-title {
+      font-weight: bold;
+      font-size: 16px;
+      color: #000;
+    }
+
+    .tagline {
+      font-style: italic;
+      color: {{accent_color}};
+    }
+
+    .contact a {
+      text-decoration: none;
+      color: #000;
+    }
+
+    .contact a svg {
+      fill: {{accent_color}};
+      margin-right: 6px;
+      vertical-align: middle;
+    }
+
+    .logos {
+      margin-top: 10px;
+    }
+
+    .logos img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .social-icons {
+      margin-top: 10px;
+    }
+
+    .social-icons a {
+      margin-right: 8px;
+      display: inline-block;
+    }
+
+    .social-icons img {
+      width: 20px;
+      height: 20px;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    {{#if headshot_url}}
+    <div style="text-align:center; margin-bottom: 10px;">
+      <img src="{{headshot_url}}" alt="Headshot" style="max-width:100px; border-radius:50%;" />
+    </div>
+    {{/if}}
+
+    <div class="name-title">{{advisor_name}} <span style="font-size:12px; font-weight:normal;">| {{title}}</span></div>
+    <div class="tagline">{{tagline}}</div>
+
+    <div class="contact" style="margin-top: 10px;">
+      <div><a href="tel:{{phone}}">{{phone}}</a></div>
+      <div><a href="mailto:{{email}}">{{email}}</a></div>
+      {{#if address}}
+      <div><a href="{{map_link}}" target="_blank">{{address}}</a></div>
+      {{/if}}
+      {{#if website}}
+      <div><a href="{{website}}" target="_blank">{{website_display}}</a></div>
+      {{/if}}
+    </div>
+
+    <div class="logos">
+      {{#if advisor_logo_url}}
+      <img src="{{advisor_logo_url}}" alt="Advisor Logo" />
+      {{/if}}
+      {{#if broker_logo_url}}
+      <img src="{{broker_logo_url}}" alt="Broker Logo" />
+      {{/if}}
+    </div>
+
+    <div class="social-icons">
+      {{#if facebook_link}}<a href="{{facebook_link}}"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook" /></a>{{/if}}
+      {{#if instagram_link}}<a href="{{instagram_link}}"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" /></a>{{/if}}
+      {{#if linkedin_link}}<a href="{{linkedin_link}}"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/linkedin.svg" alt="LinkedIn" /></a>{{/if}}
+      {{#if youtube_link}}<a href="{{youtube_link}}"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube" /></a>{{/if}}
+      {{#if twitter_link}}<a href="{{twitter_link}}"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/x.svg" alt="Twitter" /></a>{{/if}}
+      {{#if zillow_link}}<a href="{{zillow_link}}"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/zillow.svg" alt="Zillow" /></a>{{/if}}
+      {{#if realtor_link}}<a href="{{realtor_link}}"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/realtor.svg" alt="Realtor.com" /></a>{{/if}}
+    </div>
+  </div>
+</body>
+</html>
