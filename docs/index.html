@@ -3,96 +3,786 @@
 <head>
   <meta charset="UTF-8" />
   <title>SigMaker</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+  }
+
+.layout {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: flex-start;
+}
+  form {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  textarea {
+    width: 100%;
+    height: 180px;
+  }
+
+  input, button {
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  h2 {
+    margin-top: 0;
+  }
+
+  fieldset {
+    border: 1px solid #ddd;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+  }
+
+  legend {
+    padding: 0 6px;
+    font-weight: bold;
+  }
+
+  details {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  summary {
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px 14px;
+    margin: -10px -14px;
+    background: #f0f0f0;
+    border-bottom: 1px solid #ddd;
+    border-radius: 6px 6px 0 0;
+  }
+
+  .output-box {
+    flex: 1;
+    max-width: 600px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .output-box h2 {
+    margin: 0;
+  }
+
+  #signature-output {
+    margin: 0 auto;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #eee;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+    display: inline-block;
+    max-width: 100%;
+  }
+
+  .output-box > div:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+details {
+  margin-bottom: 16px;
+}
+
+details summary {
+  padding: 12px 16px;
+  font-weight: bold;
+  background: #eee;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* Unified section styling */
+details > div {
+  background: #f5f5f5; /* slightly darker than input background */
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  box-sizing: border-box;
+}
+
+/* Adds spacing above the first input in each section */
+details[open] > div > input:first-of-type {
+  margin-top: 12px;
+}
+
+.upload-section {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 16px;
+  border-radius: 4px;
+  margin-top: 16px;
+}
+
+.upload-section label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.upload-controls {
+  margin-bottom: 12px;
+}
+
+.upload-controls select {
+  width: 100%;
+  padding: 6px;
+  font-size: 14px;
+}
+
+.drop-zone {
+  border: 2px dashed #ccc;
+  border-radius: 4px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  background: #fff;
+  color: #666;
+}
+
+.drop-zone:hover {
+  background: #f0f0f0;
+}
+
+.drop-zone.dragover {
+  background: #e6f7ff;
+  border-color: #66afe9;
+  color: #333;
+}
+</style>
 </head>
 <body>
   <div class="layout">
     <form id="form">
 
-      <details open>
-        <summary><strong>Profile</strong></summary>
-        <div>
-          <input id="profile_name" type="text" placeholder="Profile name (used for saving)" />
-        </div>
-      </details>
+<details open>
+  <summary><strong>Profiles</strong></summary>
+  <div style="margin-top:10px;">
+    <fieldset style="margin-top:14px;">
+      <legend><strong>Saved Profiles</strong></legend>
 
-      <details open>
-        <summary><strong>Advisor Info</strong></summary>
-        <div class="input-section">
-          <input name="advisor_name" placeholder="Name" />
-          <input name="title" placeholder="Title" />
-          <input name="tagline" placeholder="Tagline" />
-          <input name="phone" placeholder="Phone" />
-          <input name="email" placeholder="Email" />
-          <input name="address" placeholder="Address" />
-          <input name="map_link" placeholder="Map Link" />
-          <input name="website" placeholder="Website (full URL)" />
-          <input name="website_display" placeholder="Website Display Text" />
-        </div>
-      </details>
+      <!-- Profile Name Input -->
+      <input id="profile_name" type="text" placeholder="Enter profile name" />
 
-      <details>
-        <summary><strong>Images</strong></summary>
-        <div class="input-section">
-          <input name="headshot_url" placeholder="Headshot Image URL" />
-          <input name="signature_image_url" placeholder="Signature Image URL" />
-          <input name="advisor_logo_url" placeholder="Advisor Logo URL" />
-          <input name="broker_logo_url" placeholder="Broker Logo URL" />
-        </div>
-      </details>
-
-      <details>
-        <summary><strong>Social Links</strong></summary>
-        <div class="input-section">
-          <input name="facebook_link" placeholder="Facebook Username" />
-          <input name="instagram_link" placeholder="Instagram Username" />
-          <input name="linkedin_link" placeholder="LinkedIn Handle" />
-          <input name="youtube_link" placeholder="YouTube Handle" />
-          <input name="twitter_link" placeholder="Twitter Handle" />
-          <input name="zillow_link" placeholder="Zillow Username" />
-          <input name="realtor_link" placeholder="Realtor.com Username" />
-        </div>
-      </details>
-
-      <details>
-        <summary><strong>Brand Colors</strong></summary>
-        <div class="input-section">
-          <label>Brand Color</label>
-          <input id="brand_color_hex" name="brand_color" type="text" value="#000000" />
-          <label>Accent Color</label>
-          <input id="accent_color_hex" name="accent_color" type="text" value="#bf9447" />
-        </div>
-      </details>
-
-      <details open>
-        <summary><strong>GitHub Token</strong></summary>
-        <div class="input-section">
-          <input id="github_token" type="password" placeholder="Paste GitHub token here" />
-        </div>
-      </details>
-
-      <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:10px;">
-        <button type="button" onclick="copyHTML()">Copy HTML</button>
-        <button type="button" onclick="downloadSignature()">Download HTML</button>
-        <button type="reset" onclick="resetForm()">Clear Form</button>
+      <!-- Row 1: Profile Selector -->
+      <div style="margin-top:10px;">
+        <select id="profile_selector" onchange="loadSelectedProfile()" style="min-width:180px;">
+          <option value="">-- Select a profile --</option>
+        </select>
       </div>
 
-    </form>
+      <!-- Row 2: Save / Load / Delete -->
+      <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;">
+        <button type="button" onclick="saveProfile()">Save</button>
+        <button type="button" onclick="loadProfile()">Load</button>
+        <button type="button" onclick="deleteProfile()">Delete</button>
+      </div>
 
-    <div class="output-box">
-      <h2>Signature Preview</h2>
-      <div id="signature-output"></div>
+      <!-- Row 3: Export / Import / Add New -->
+      <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:10px;">
+        <button type="button" onclick="exportProfiles()">Export</button>
+        <input type="file" id="import_file" accept=".json" style="display:none;" onchange="importProfiles(event)" />
+        <button type="button" onclick="document.getElementById('import_file').click()">Import</button>
+        <button type="button" onclick="addNewProfile()">Add New</button>
+      </div>
+    </fieldset>
+  </div>
+</details>
+
+<details>
+  <summary><strong>Branding</strong></summary>
+  <div style="margin-top:12px; display: flex; flex-direction: column; gap: 16px;">
+
+    <!-- Brand Color -->
+    <div>
+      <label for="brand_color_hex" style="display:block; font-weight:bold; margin-bottom:4px;">Brand Color</label>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <input id="brand_color_picker" type="color" value="#000000" style="width: 40px; height: 32px;" />
+        <input id="brand_color_hex" name="brand_color" type="text" value="#000000" placeholder="#000000" style="flex: 1; padding: 6px;" />
+      </div>
+    </div>
+
+    <!-- Accent Color -->
+    <div>
+      <label for="accent_color_hex" style="display:block; font-weight:bold; margin-bottom:4px;">Accent Color</label>
+      <div style="display: flex; gap: 10px; align-items: center;">
+        <input id="accent_color_picker" type="color" value="#000000" style="width: 40px; height: 32px;" />
+        <input id="accent_color_hex" name="accent_color" type="text" value="#000000" placeholder="#000000" style="flex: 1; padding: 6px;" />
+      </div>
+    </div>
+
+  </div>
+</details>
+
+<details>
+  <summary><strong>Advisor Info</strong></summary>
+  <div style="margin-top:10px; display: flex; flex-direction: column; gap: 10px;">
+    <input name="advisor_name" placeholder="Name" type="text" />
+    <input name="title" placeholder="Title" type="text" />
+    <input name="tagline" placeholder="Tagline" type="text" />
+    <input name="phone" placeholder="Phone" type="text" />
+    <input name="email" placeholder="Email" type="email" />
+    <input name="address" placeholder="Address" type="text" />
+    <input name="map_link" placeholder="Map Link" type="text" />
+    <input name="website" placeholder="Website (Full URL)" type="text" />
+    <input name="website_display" placeholder="Website (Display Text)" type="text" />
+  </div>
+</details>
+
+<details>
+  <summary><strong>Images & Logos</strong></summary>
+  <div style="margin-top:10px; display: flex; flex-direction: column; gap: 10px;">
+    <input name="headshot_url" placeholder="Headshot Image URL" type="text" />
+    <input name="signature_image_url" placeholder="Signature Image URL" type="text" />
+    <input name="advisor_logo_url" placeholder="Advisor Logo URL" type="text" />
+    <input name="broker_logo_url" placeholder="Broker Logo URL" type="text" />
+  </div>
+</details>
+
+<details>
+  <summary><strong>Links</strong></summary>
+  <div style="margin-top:10px; display: flex; flex-direction: column; gap: 10px;">
+    <input name="schedule_link" placeholder="Schedule Link" type="text" />
+    <input name="search_link" placeholder="Search Properties" type="text" />
+    <input name="testimonials_link" placeholder="Testimonials" type="text" />
+  </div>
+</details>
+
+<details>
+  <summary><strong>Socials</strong></summary>
+  <div style="margin-top:10px; display: flex; flex-direction: column; gap: 10px;">
+    <input name="facebook_link" placeholder="Facebook Username" type="text" />
+    <input name="instagram_link" placeholder="Instagram Username" type="text" />
+    <input name="linkedin_link" placeholder="LinkedIn Profile Name" type="text" />
+    <input name="youtube_link" placeholder="YouTube Channel Handle" type="text" />
+    <input name="twitter_link" placeholder="Twitter(X) Handle" type="text" />
+    <input name="realtor_link" placeholder="Realtor.com" type="text" />
+    <input name="zillow_link" placeholder="Zillow" type="text" />
+  </div>
+</details>
+
+<div class="upload-section">
+  <label for="imageUploader">Upload Image:</label>
+
+  <div class="upload-controls">
+    <select id="imageFieldSelector">
+      <option value="">-- Choose Location --</option>
+      <option value="headshot_url">Headshot</option>
+      <option value="signature_image_url">Signature Image</option>
+      <option value="advisor_logo_url">Logo</option>
+      <option value="broker_logo_url">Broker Logo</option>
+    </select>
+  </div>
+<input type="file" id="imageUploader" style="display:none;" />
+
+ <div id="dropZone" class="dropzone" style="border:2px dashed #ccc; padding:20px; text-align:center;">
+  <span id="dropText">Drag & drop image here or click to select</span>
+  <img id="imagePreview" src="" alt="Image preview" style="display:none; margin-top:10px; max-width:100%; max-height:150px; border-radius:6px;" />
+  <div id="uploadStatus" style="margin-top:8px; font-size:14px; color:#666;"></div>
+</div>
+</div>
+  <button type="reset">Clear All</button>
+
+</form>
+<div class="output-box" style="flex: 1; max-width: 600px; padding: 20px; border: 1px solid #ccc; background: #f9f9f9; display: flex; flex-direction: column; gap: 16px; align-items: center;">
+      <h2 style="margin: 0;">Signature Preview</h2>
+
+      <div id="signature-output" style="margin: 0 auto; padding: 10px; background: #fff; border: 1px solid #eee; box-shadow: 0 0 4px rgba(0, 0, 0, 0.05); display: inline-block; max-width: 100%;"></div>
+
+      <div class="signature-buttons" style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 0;">
+        <button onclick="openInNewTab()">Open Preview in New Tab</button>
+        <button onclick="copyHTML()">Copy HTML</button>
+        <button onclick="downloadSignature()">Download HTML File</button>
+      </div>
     </div>
   </div>
-
-  <!-- Handlebars Template -->
-  <script id="signature-template" type="text/x-handlebars-template">
-    {{{signature_html}}}
-  </script>
-
-  <!-- App Logic -->
-  <script src="app.js"></script>
 </body>
-</html>
+<script id="signature-template" type="text/x-handlebars-template">
+  {{{signature_html}}}
+</script>
+
+
+
+<script>
+function sanitizeSocialLinks(data) {
+  const socialHandleMap = {
+    facebook_link: "https://www.facebook.com/",
+    instagram_link: "https://www.instagram.com/",
+    linkedin_link: "https://www.linkedin.com/in/",
+    twitter_link: "https://twitter.com/",
+    youtube_link: "https://www.youtube.com/@",
+    zillow_link: "https://www.zillow.com/profile/",
+    realtor_link: "https://www.realtor.com/realestateagents/"
+  };
+
+  Object.entries(socialHandleMap).forEach(([field, base]) => {
+    let input = data[field]?.trim() || "";
+
+    if (!input) {
+      data[field] = "";
+      return;
+    }
+
+    // ✅ Leave full correct YouTube @ URLs alone
+    if (field === "youtube_link" && /^https?:\/\/(www\.)?youtube\.com\/@[\w-]+$/i.test(input)) {
+      data[field] = input;
+      return;
+    }
+
+    // ✅ Leave all other full URLs alone
+    if (/^https?:\/\//i.test(input)) {
+      data[field] = input;
+      return;
+    }
+
+    // ✅ Special handling for YouTube handles
+    if (field === "youtube_link") {
+      input = input.replace(/^@/, ""); // strip @ if present
+      data[field] = `https://www.youtube.com/@${input}`;
+    } else {
+      input = input.replace(/^@/, ""); // strip @ if user typed it
+      data[field] = base + input;
+    }
+  });
+
+  return data;
+}
+function normalizeURL(url) {
+  url = url.trim();
+  if (/^https?:\/\//i.test(url)) return url;
+  return 'https://' + url.replace(/^\/+/, '');
+}
+
+function processFormData(form) {
+  const formData = new FormData(form);
+  let data = Object.fromEntries(formData.entries());
+
+  // First: normalize all *non-social* URLs only
+  const skipNormalizeFields = [
+    'facebook_link',
+    'instagram_link',
+    'linkedin_link',
+    'youtube_link',
+    'twitter_link',
+    'zillow_link',
+    'realtor_link'
+  ];
+
+  Object.keys(data).forEach(field => {
+    if (typeof data[field] === 'string' && !skipNormalizeFields.includes(field)) {
+      data[field] = normalizeURL(data[field]);
+    }
+  });
+
+  // Then: sanitize social handles and URLs (including YouTube)
+  sanitizeSocialLinks(data);
+
+  // Final defaults
+  data.advisor_name = data.advisor_name || "Your Name";
+  data.title = data.title || "REALTOR";
+  data.phone = data.phone || "(777) 777.7777";
+  data.email = data.email || "you@example.com";
+  data.address = data.address || "office address";
+  data.website_display = data.website_display || "www.example.com";
+  data.brand_color = document.getElementById("brand_color_hex").value.trim();
+
+  return data;
+}
+
+// Sync color pickers and hex inputs
+  const syncColors = (pickerId, hexId) => {
+    const picker = document.getElementById(pickerId);
+    const hex = document.getElementById(hexId);
+
+    picker.addEventListener("input", () => hex.value = picker.value);
+    hex.addEventListener("input", () => {
+      if (/^#[0-9A-Fa-f]{6}$/.test(hex.value)) {
+        picker.value = hex.value;
+      }
+    });
+  };
+
+  syncColors("brand_color_picker", "brand_color_hex");
+  syncColors("accent_color_picker", "accent_color_hex");
+
+  const template = Handlebars.compile(document.getElementById("signature-template").innerHTML);
+  const output = document.getElementById("signature-output");
+
+
+  document.getElementById("form").addEventListener("submit", e => {
+    e.preventDefault();
+    const data = processFormData(e.target);
+
+    fetch("template.html")
+      .then(res => res.text())
+      .then(raw => {
+        const html = Handlebars.compile(raw)(data);
+        output.innerHTML = template({ signature_html: html });
+      });
+  });
+
+function generateSignatureLive() {
+  const data = processFormData(document.getElementById("form"));
+console.log("YouTube input raw value:", document.querySelector('[name="youtube_link"]').value);
+console.log("YouTube after processFormData:", data.youtube_link);
+  console.log('🔍 FINAL YOUTUBE LINK IN generateSignatureLive:', data.youtube_link); // ✅ Add this
+
+  fetch("template.html")
+    .then(res => res.text())
+    .then(raw => {
+      const html = Handlebars.compile(raw)(data);
+      output.innerHTML = template({ signature_html: html });
+    });
+}function addNewProfile() {
+  document.getElementById("form").reset();
+  document.getElementById("profile_name").value = "";
+  generateSignatureLive();
+}
+document.querySelectorAll("#form input").forEach(input => {
+  input.addEventListener("input", () => {
+    generateSignatureLive();
+    autoSaveProfile();
+  });
+});
+
+  function copyHTML() {
+    navigator.clipboard.writeText(output.innerHTML);
+    alert("Signature HTML copied to clipboard!");
+  }
+
+  function openInNewTab() {
+    const newWindow = window.open();
+    newWindow.document.write(`
+      <html>
+        <head><title>Email Signature Preview</title></head>
+        <body style="margin:40px; font-family:Arial, sans-serif;">
+          ${output.innerHTML}
+        </body>
+      </html>
+    `);
+    newWindow.document.close();
+  }
+
+
+document.getElementById("form").addEventListener("reset", () => {
+  setTimeout(() => generateSignatureLive(), 0);
+});
+const PROFILE_KEY = "sigmaker_profiles";
+
+function getAllProfiles() {
+  return JSON.parse(localStorage.getItem(PROFILE_KEY)) || {};
+}
+function autoSaveProfile() {
+  const nameInput = document.getElementById("profile_name");
+  const activeElement = document.activeElement;
+
+  // 👇 Skip autosave if typing in profile name field
+  if (activeElement === nameInput) return;
+
+  const name = nameInput.value.trim();
+  if (!name) return;
+
+  const formData = new FormData(document.getElementById("form"));
+let data = processFormData(document.getElementById("form"));
+  const profiles = getAllProfiles();
+  profiles[name] = data;
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(profiles));
+  console.log(`Auto-saved profile: ${name}`);
+}
+
+function saveProfile() {
+  const name = document.getElementById("profile_name").value.trim();
+  if (!name) return alert("Please enter a profile name to save.");
+
+  const formData = new FormData(document.getElementById("form"));
+let data = processFormData(document.getElementById("form"));
+  const profiles = getAllProfiles();
+  profiles[name] = data;
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(profiles));
+  updateProfileSelector();
+  alert(`✅ Profile "${name}" saved!`);
+}
+function loadProfile() {
+  const name = document.getElementById("profile_name").value.trim();
+  if (!name) return alert("Enter a profile name to load.");
+  const profiles = getAllProfiles();
+  const data = profiles[name];
+  if (!data) return alert(`No profile found for "${name}".`);
+
+  fillFormWithData(data);
+}
+
+function loadSelectedProfile() {
+  const name = document.getElementById("profile_selector").value;
+  if (!name) return;
+  const profiles = getAllProfiles();
+  const data = profiles[name];
+  if (!data) return alert(`No profile found for "${name}".`);
+  document.getElementById("profile_name").value = name;
+  fillFormWithData(data);
+}
+
+function fillFormWithData(data) {
+  sanitizeSocialLinks(data); // ✨ Format all social handles on load
+
+  const form = document.getElementById("form");
+  for (const [key, value] of Object.entries(data)) {
+    const input = form.elements[key];
+    if (input) input.value = value;
+  }
+
+  document.getElementById("brand_color_picker").value = data.brand_color || "#000000";
+  document.getElementById("accent_color_picker").value = data.accent_color || "#000000";
+
+  generateSignatureLive();
+}
+function updateProfileSelector() {
+  const selector = document.getElementById("profile_selector");
+  const profiles = getAllProfiles();
+
+  selector.innerHTML = '<option value="">-- Select a profile --</option>';
+  Object.keys(profiles).forEach(name => {
+    const option = document.createElement("option");
+    option.value = name;
+    option.textContent = name;
+    selector.appendChild(option);
+  });
+}
+
+// Populate selector on page load
+window.addEventListener("DOMContentLoaded", () => {
+  generateSignatureLive();
+  updateProfileSelector();
+});
+function deleteProfile() {
+  const name = document.getElementById("profile_name").value.trim();
+  if (!name) return alert("Enter the profile name you want to delete.");
+  const profiles = getAllProfiles();
+
+  if (!profiles[name]) return alert(`No profile found for "${name}".`);
+  const confirmDelete = confirm(`Are you sure you want to delete "${name}"?`);
+  if (!confirmDelete) return;
+
+  delete profiles[name];
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(profiles));
+  updateProfileSelector();
+  document.getElementById("profile_name").value = "";
+  alert(`Profile "${name}" deleted.`);
+}
+function exportProfiles() {
+  const profiles = getAllProfiles();
+  const blob = new Blob([JSON.stringify(profiles, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "sigmaker_profiles.json";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function importProfiles(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (typeof imported !== "object") throw new Error();
+      const profiles = getAllProfiles();
+      const merged = { ...profiles, ...imported };
+      localStorage.setItem(PROFILE_KEY, JSON.stringify(merged));
+      updateProfileSelector();
+      alert("Profiles imported successfully.");
+    } catch {
+      alert("Invalid JSON file.");
+    }
+  };
+  reader.readAsText(file);
+}
+
+// Trigger initial preview on load
+window.addEventListener("DOMContentLoaded", () => {
+  generateSignatureLive();
+});
+function downloadSignature() {
+  const profileName = document.getElementById("profile_name").value.trim() || "signature";
+  const now = new Date();
+  const dateStr = now.toISOString().split("T")[0];
+  const timeStr = now.toTimeString().slice(0, 5).replace(":", "-");
+  const filename = `${profileName.replace(/\s+/g, "_")}_email_signature_${dateStr}_${timeStr}.html`;
+
+  // ⬇️ Sanitize social links before export
+  const data = Object.fromEntries(new FormData(document.getElementById("form")).entries());
+  sanitizeSocialLinks(data); // ✅ This ensures socials are properly formatted
+
+  const html = `
+    <html>
+      <head><title>Email Signature - ${profileName}</title></head>
+      <body style="margin:40px; font-family:Arial, sans-serif;">
+        ${document.getElementById("signature-output").innerHTML}
+      </body>
+    </html>
+  `;
+
+  const blob = new Blob([html], { type: "text/html" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  link.click();
+}// Dropzone upload with GitHub sync and form auto-fill
+const GITHUB_USERNAME = "jml1234567";
+const REPO_NAME = "coastal-emails";
+const BRANCH = "main";
+const FOLDER_PATH = "email-signature-assets";
+const GITHUB_TOKEN = "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";
+
+window.addEventListener("DOMContentLoaded", () => {
+  // 🔒 Prevent full-page file drag-and-drop
+  window.addEventListener("dragover", (e) => e.preventDefault());
+  window.addEventListener("drop", (e) => e.preventDefault());
+
+  const uploader = document.getElementById("imageUploader");
+  const fieldSelector = document.getElementById("imageFieldSelector");
+  const dropZone = document.getElementById("dropZone");
+  const dropText = document.getElementById("dropText");
+  const preview = document.getElementById("imagePreview");
+  const uploadStatus = document.getElementById("uploadStatus");
+
+  let pendingFile = null;
+
+  const showThumbnail = (file) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      preview.src = reader.result;
+      preview.style.display = "block";
+      dropText.style.display = "none";
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const clearPreview = () => {
+    preview.src = "";
+    preview.style.display = "none";
+    dropText.style.display = "block";
+    uploadStatus.textContent = "";
+  };
+
+  const handleFileUpload = async (file) => {
+    const fieldName = fieldSelector.value;
+    if (!file) return;
+
+    showThumbnail(file);
+
+    if (!fieldName) {
+      pendingFile = file;
+      return;
+    }
+
+    uploadStatus.textContent = "Uploading…";
+
+    const reader = new FileReader();
+    reader.onload = async () => {
+      const base64 = reader.result.split(",")[1];
+      const originalName = file.name.split('.').slice(0, -1).join('.');
+      const ext = file.name.split('.').pop();
+      const cleanedBase = originalName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+      const cleanName = `${fieldName}_${cleanedBase}.${ext}`;
+      const filePath = `${FOLDER_PATH}/${cleanName}`;
+
+      // Optional: check for existing file SHA
+      let existingSHA = null;
+      const check = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${filePath}`, {
+        headers: { Authorization: `token ${GITHUB_TOKEN}` }
+      });
+      if (check.ok) {
+        const existing = await check.json();
+        existingSHA = existing.sha;
+      }
+
+      const uploadResponse = await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${REPO_NAME}/contents/${filePath}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          message: `Add or update ${cleanName}`,
+          content: base64,
+          branch: BRANCH,
+          ...(existingSHA && { sha: existingSHA })
+        })
+      });
+
+      if (uploadResponse.ok) {
+        const cdnUrl = `https://cdn.jsdelivr.net/gh/${GITHUB_USERNAME}/${REPO_NAME}@${BRANCH}/${filePath}`;
+        const inputField = document.querySelector(`[name="${fieldName}"]`);
+        if (inputField) {
+          inputField.value = cdnUrl;
+          autoSaveProfile();
+          generateSignatureLive();
+          uploadStatus.textContent = "✅ Image uploaded and inserted!";
+          alert("✅ Image uploaded and inserted!");
+          pendingFile = null;
+          setTimeout(clearPreview, 3000);
+        }
+      } else {
+        const error = await uploadResponse.json();
+        uploadStatus.textContent = "❌ Upload failed.";
+        alert("❌ Upload failed: " + (error.message || "See console"));
+        console.error(error);
+      }
+    };
+
+    reader.readAsDataURL(file);
+  };
+
+  uploader.addEventListener("change", (e) => {
+    if (e.target.files[0]) handleFileUpload(e.target.files[0]);
+  });
+
+  fieldSelector.addEventListener("change", () => {
+    if (pendingFile && fieldSelector.value) {
+      handleFileUpload(pendingFile);
+    }
+  });
+
+  dropZone.addEventListener("click", () => uploader.click());
+  dropZone.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropZone.classList.add("dragover");
+  });
+  dropZone.addEventListener("dragleave", () => {
+    dropZone.classList.remove("dragover");
+  });
+  dropZone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropZone.classList.remove("dragover");
+    const file = e.dataTransfer.files[0];
+    if (file) handleFileUpload(file);
+  });
+});</script>
